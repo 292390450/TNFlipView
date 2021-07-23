@@ -1,0 +1,60 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:TNFlipView">
+
+    <Style TargetType="{x:Type local:VerticalFlipView}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:VerticalFlipView}">
+                    <local:VerticalSmoothScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" IsFlipScroll="True">
+                   
+                        <ItemsControl x:Name="Items" IsManipulationEnabled="True" ItemTemplate="{TemplateBinding ItemTemplate}" ItemsSource="{TemplateBinding ItemSource}">
+                            <ItemsControl.CacheMode>
+                                <BitmapCache RenderAtScale="1" SnapsToDevicePixels="True" EnableClearType="True"></BitmapCache>
+
+                            </ItemsControl.CacheMode>
+
+                            <ItemsControl.ItemContainerStyle>
+                                <Style TargetType="ContentPresenter">
+                                    <Setter Property="Width" Value="{Binding ElementName=ScrollViewer,Path=ActualWidth}"></Setter>
+                                    <Setter Property="Height" Value="{Binding ElementName=ScrollViewer,Path=ActualHeight}"></Setter>
+                                </Style>
+                            </ItemsControl.ItemContainerStyle>
+                        </ItemsControl>
+                    </local:VerticalSmoothScrollViewer>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:HorizontalFlipView}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:HorizontalFlipView}">
+                    <local:HorizontalSmoothScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" IsFlipScroll="True">
+
+                        <ItemsControl x:Name="Items" IsManipulationEnabled="True" ItemTemplate="{TemplateBinding ItemTemplate}" ItemsSource="{TemplateBinding ItemSource}">
+                           <ItemsControl.ItemsPanel>
+                               <ItemsPanelTemplate>
+                                   <StackPanel Orientation="Horizontal"/>
+                               </ItemsPanelTemplate>
+                           </ItemsControl.ItemsPanel>
+                            <ItemsControl.CacheMode>
+                                <BitmapCache RenderAtScale="1" SnapsToDevicePixels="True" EnableClearType="True"></BitmapCache>
+
+                            </ItemsControl.CacheMode>
+
+                            <ItemsControl.ItemContainerStyle>
+                                <Style TargetType="ContentPresenter">
+                                    <Setter Property="Width" Value="{Binding ElementName=ScrollViewer,Path=ActualWidth}"></Setter>
+                                    <Setter Property="Height" Value="{Binding ElementName=ScrollViewer,Path=ActualHeight}"></Setter>
+                                </Style>
+                            </ItemsControl.ItemContainerStyle>
+                        </ItemsControl>
+                    </local:HorizontalSmoothScrollViewer>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
