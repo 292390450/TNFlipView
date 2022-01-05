@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
@@ -12,7 +13,37 @@ namespace TNFlipView
         private const int flipTime = 300;
         private const int noFlipTime = 200;
         private int _currentIndex;
+        
+        public static readonly DependencyProperty ScrollerStyleProperty = DependencyProperty.Register(
+            "ScrollerStyle", typeof(Style), typeof(VerticalSmoothScrollViewer), new PropertyMetadata(default(Style),(
+                (o, args) =>
+                {
+                    if (o is VerticalSmoothScrollViewer scrollViewer)
+                    {
+                        scrollViewer.ChangeScrollStyle(args.NewValue as Style);
+                    }
+                })));
 
+        public Style ScrollerStyle
+        {
+            get { return (Style)GetValue(ScrollerStyleProperty); }
+            set { SetValue(ScrollerStyleProperty, value); }
+        }
+        public static readonly DependencyProperty ScrollerBarWidthProperty = DependencyProperty.Register(
+        "ScrollerBarWidth", typeof(double), typeof(VerticalSmoothScrollViewer), new PropertyMetadata(0.0, (
+            (o, args) =>
+            {
+                if (o is VerticalSmoothScrollViewer scrollViewer)
+                {
+                    scrollViewer.Padding = new Thickness(0, 0, (double)args.NewValue, 0);
+                }
+            })));
+
+        public double ScrollerBarWidth
+        {
+            get { return (double)GetValue(ScrollerBarWidthProperty); }
+            set { SetValue(ScrollerBarWidthProperty, value); }
+        }
         /// <summary>
         /// flip滑动时有效，只读
         /// </summary>
@@ -40,7 +71,6 @@ namespace TNFlipView
         //重写鼠标滚动事件
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
-
             double WheelChange = e.Delta;
             double newOffset = 0.0;
             if (!IsFlipScroll)
@@ -127,6 +157,11 @@ namespace TNFlipView
             //Timeline.SetDesiredFrameRate(Animation, 40);
             BeginAnimation(ScrollViewerBehavior.VerticalOffsetProperty, Animation);
             LastLocation = ToValue;
+        }
+
+        public void ChangeScrollStyle(Style style)
+        {
+            base.Style = style;
         }
     }
 }
