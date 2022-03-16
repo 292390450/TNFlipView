@@ -10,25 +10,40 @@ namespace TNFlipView
 {
     public class VerticalSmoothScrollViewer:ScrollViewer
     {
-        private const int flipTime = 300;
-        private const int noFlipTime = 200;
         private int _currentIndex;
-        
-        public static readonly DependencyProperty ScrollerStyleProperty = DependencyProperty.Register(
-            "ScrollerStyle", typeof(Style), typeof(VerticalSmoothScrollViewer), new PropertyMetadata(default(Style),(
-                (o, args) =>
-                {
-                    if (o is VerticalSmoothScrollViewer scrollViewer)
-                    {
-                        scrollViewer.ChangeScrollStyle(args.NewValue as Style);
-                    }
-                })));
 
-        public Style ScrollerStyle
+        public static readonly DependencyProperty ScrollAnimationTimeProperty = DependencyProperty.Register(
+            "ScrollAnimationTime", typeof(int), typeof(VerticalSmoothScrollViewer), new PropertyMetadata(200));
+
+        /// <summary>
+        /// 毫秒
+        /// </summary>
+        public int ScrollAnimationTime
         {
-            get { return (Style)GetValue(ScrollerStyleProperty); }
-            set { SetValue(ScrollerStyleProperty, value); }
+            get { return (int)GetValue(ScrollAnimationTimeProperty); }
+            set { SetValue(ScrollAnimationTimeProperty, value); }
         }
+
+        public static readonly DependencyProperty FlipAnimationTimeProperty = DependencyProperty.Register(
+            "FlipAnimationTime", typeof(int), typeof(VerticalSmoothScrollViewer), new PropertyMetadata(300));
+
+        public int FlipAnimationTime
+        {
+            get { return (int)GetValue(FlipAnimationTimeProperty); }
+            set { SetValue(FlipAnimationTimeProperty, value); }
+        }
+        public static readonly DependencyProperty ScrollRatioProperty = DependencyProperty.Register(
+            "ScrollRatio", typeof(double), typeof(VerticalSmoothScrollViewer), new PropertyMetadata(1.2));
+
+        /// <summary>
+        /// 滚动比
+        /// </summary>
+        public double ScrollRatio
+        {
+            get { return (double)GetValue(ScrollRatioProperty); }
+            set { SetValue(ScrollRatioProperty, value); }
+        }
+
         public static readonly DependencyProperty ScrollerBarWidthProperty = DependencyProperty.Register(
         "ScrollerBarWidth", typeof(double), typeof(VerticalSmoothScrollViewer), new PropertyMetadata(0.0, (
             (o, args) =>
@@ -65,8 +80,8 @@ namespace TNFlipView
         private double LastLocation = 0;
         public VerticalSmoothScrollViewer()
         {
-            HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
-            VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+           // HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            //VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
         }
         //重写鼠标滚动事件
         protected override void OnMouseWheel(MouseWheelEventArgs e)
@@ -75,7 +90,7 @@ namespace TNFlipView
             double newOffset = 0.0;
             if (!IsFlipScroll)
             {
-                   newOffset = LastLocation - WheelChange *1.2;
+                   newOffset = LastLocation - WheelChange * ScrollRatio;
             }
             else
             {
@@ -146,11 +161,11 @@ namespace TNFlipView
             //动画速度
             if (IsFlipScroll)
             {
-                Animation.Duration = TimeSpan.FromMilliseconds(flipTime);
+                Animation.Duration = TimeSpan.FromMilliseconds(FlipAnimationTime);
             }
             else
             {
-                Animation.Duration = TimeSpan.FromMilliseconds(noFlipTime);
+                Animation.Duration = TimeSpan.FromMilliseconds(ScrollAnimationTime);
             }
   
             //考虑到性能，可以降低动画帧数
@@ -159,9 +174,6 @@ namespace TNFlipView
             LastLocation = ToValue;
         }
 
-        public void ChangeScrollStyle(Style style)
-        {
-            base.Style = style;
-        }
+    
     }
 }

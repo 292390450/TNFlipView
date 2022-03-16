@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net4;netcoreapp3.1</TargetFrameworks>
     <UseWPF>true</UseWPF>
-    <Version>1.0.2</Version>
+    <Version>1.0.4</Version>
     <Authors>Zeng</Authors>
   </PropertyGroup>
 
