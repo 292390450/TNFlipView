@@ -14,7 +14,7 @@ namespace TNFlipView
 
 
         public static readonly DependencyProperty ScrollAnimationTimeProperty = DependencyProperty.Register(
-          "ScrollAnimationTime", typeof(int), typeof(VerticalSmoothScrollViewer), new PropertyMetadata(200));
+          "ScrollAnimationTime", typeof(int), typeof(HorizontalSmoothScrollViewer), new PropertyMetadata(200));
 
         /// <summary>
         /// 毫秒
@@ -26,7 +26,7 @@ namespace TNFlipView
         }
 
         public static readonly DependencyProperty FlipAnimationTimeProperty = DependencyProperty.Register(
-            "FlipAnimationTime", typeof(int), typeof(VerticalSmoothScrollViewer), new PropertyMetadata(300));
+            "FlipAnimationTime", typeof(int), typeof(HorizontalSmoothScrollViewer), new PropertyMetadata(300));
 
         public int FlipAnimationTime
         {
@@ -34,7 +34,7 @@ namespace TNFlipView
             set { SetValue(FlipAnimationTimeProperty, value); }
         }
         public static readonly DependencyProperty ScrollRatioProperty = DependencyProperty.Register(
-            "ScrollRatio", typeof(double), typeof(VerticalSmoothScrollViewer), new PropertyMetadata(1.2));
+            "ScrollRatio", typeof(double), typeof(HorizontalSmoothScrollViewer), new PropertyMetadata(1.2));
 
         /// <summary>
         /// 滚动比
@@ -46,10 +46,10 @@ namespace TNFlipView
         }
 
         public static readonly DependencyProperty ScrollerBarWidthProperty = DependencyProperty.Register(
-        "ScrollerBarWidth", typeof(double), typeof(VerticalSmoothScrollViewer), new PropertyMetadata(0.0, (
+        "ScrollerBarWidth", typeof(double), typeof(HorizontalSmoothScrollViewer), new PropertyMetadata(0.0, (
             (o, args) =>
             {
-                if (o is VerticalSmoothScrollViewer scrollViewer)
+                if (o is HorizontalSmoothScrollViewer scrollViewer)
                 {
                     scrollViewer.Padding = new Thickness(0, 0, 0, (double)args.NewValue );
                 }
